@@ -32,6 +32,8 @@ class DashboardSantri extends React.Component {
     refreshing: false,
     status: true,
     animationLoad: false,
+    email: '',
+    email_verified_at: null,
   };
   componentDidMount () {
     // BackHandler.addEventListener(
@@ -45,7 +47,14 @@ class DashboardSantri extends React.Component {
         token: JSON.parse (value).token,
         role: JSON.parse (value).role,
         jurusan_id: JSON.parse (value).jurusan_id,
+        email: JSON.parse (value).email,
+        email_verified_at: JSON.parse (value).email_verified_at,
       };
+
+      this.setState ({
+        email: data.email,
+        email_verified_at: data.email_verified_at,
+      });
 
       // console.log(data.jurusan_id +' dashboard santri')
 
@@ -65,6 +74,14 @@ class DashboardSantri extends React.Component {
   //   BackHandler.exitApp();
   //   return true;
   // }
+
+
+  verifikasiEmail = () => {
+    let data = this.props.authentication;
+    let token = data.token;
+  }
+
+
   logout = () => {
     let data = this.props.authentication;
     let token = data.token;
@@ -235,6 +252,8 @@ class DashboardSantri extends React.Component {
           token: token,
           role: response.data.role,
           jurusan_id: response.data.jurusan_id,
+          email: response.data.email,
+          email_verified_at: response.data.email_verified_at,
         };
 
         // console.log (data);
@@ -247,9 +266,16 @@ class DashboardSantri extends React.Component {
               token: JSON.parse (value).token,
               role: JSON.parse (value).role,
               jurusan_id: JSON.parse (value).jurusan_id,
+              email: JSON.parse (value).email,
+              email_verified_at: JSON.parse (value).email_verified_at,
             };
 
-            console.log (data.jurusan_id + ' dashboard santri');
+            // console.log (data.jurusan_id + ' dashboard santri');
+
+            this.setState ({
+              email: data.email,
+              email_verified_at: data.email_verified_at,
+            });
 
             this.props.authenticationChange (data);
             this.props.jurusanID (data);
@@ -307,6 +333,18 @@ class DashboardSantri extends React.Component {
             source={require ('../../assets/images/banner.png')}
             style={styles.banner}
           />
+          {/* {this.state.email_verified_at == null
+            ? <View style={styles.TouchableOpacityStyle}>
+                <Text style={{color: 'red', fontWeight: 'bold'}}>
+                  Email Belum Terverifikasi
+                </Text>
+                <Text
+                  style={{marginLeft: 10, color: 'red', fontWeight: 'bold'}}
+                >
+                  Klik Disini
+                </Text>
+              </View>
+            : null} */}
           <ScrollView
             refreshControl={
               <RefreshControl
@@ -343,7 +381,9 @@ class DashboardSantri extends React.Component {
                 );
               })}
             </View>
-            <Text style={{marginLeft: 10, fontSize : 10, color: 'red'}}>* Tarik Dari Atas Ke Bawah Untuk Reload Jurusan</Text>
+            <Text style={{marginLeft: 10, fontSize: 10, color: 'red'}}>
+              * Tarik Dari Atas Ke Bawah Untuk Reload Jurusan
+            </Text>
           </ScrollView>
         </View>
       </View>

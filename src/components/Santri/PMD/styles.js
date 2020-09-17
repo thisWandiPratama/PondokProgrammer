@@ -99,4 +99,22 @@ export const styles = StyleSheet.create ({
     fontSize: 20,
     fontWeight: 'bold',
   },
+  boxTitle: {
+    fontSize: 16,
+    color: 'grey',
+    fontWeight: 'bold',
+  },
+  ListBox: {
+    height: 70,
+    width: '100%',
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    padding: 10,
+    marginBottom: 5,
+    shadowOffset: {width: 5, height: 5},
+    shadowColor: 'black',
+    shadowOpacity: 1,
+    elevation: 1,
+    backgroundColor: 'white',
+  },
 });

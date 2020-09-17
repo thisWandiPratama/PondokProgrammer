@@ -75,6 +75,8 @@ class Login extends React.Component {
                 role: response.data.data.role,
                 // Jurusan_id tambahan wandi karena digunakan untuk dashboard santri
                 jurusan_id: response.data.data.jurusan_id,
+                email : response.data.data.email,
+                email_verified_at : response.data.data.email_verified_at
               };
 
               AsyncStorage.setItem ('data', JSON.stringify (data));

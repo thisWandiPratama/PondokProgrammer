@@ -56,7 +56,7 @@ class DetailDailyTask extends Component {
     this.filter (dailyTask_id);
     setTimeout (() => {
       this.filter (dailyTask_id);
-    }, 60000);
+    }, 60000 * 10);
   };
 
   getData = () => {
@@ -65,7 +65,6 @@ class DetailDailyTask extends Component {
     const jurusan_id = this.props.jurusan_id.jurusan_id;
     const {Sprint, id_topik} = this.props.route.params;
 
-    console.log (Sprint, id_topik, jurusan_id);
     this.setState ({refreshing: true, animationLoad: true});
     axios
       .get (
@@ -103,6 +102,7 @@ class DetailDailyTask extends Component {
 
   onRefreshScreen = () => {
     this.getData ();
+    this.getStatus();
   };
 
   renderListScreen = () => {
@@ -116,7 +116,8 @@ class DetailDailyTask extends Component {
       );
     } else if (this.state.status) {
       return this.state.task.map ((value, key) => {
-        const dailyTask_id = value.id;
+        console.log(this.state.task[0].id )
+        const dailyTask_id = this.state.task[key].id;
         const is_learned = 1;
         return (
           <View style={styles.mainDetail} key={key}>
@@ -326,6 +327,7 @@ class DetailDailyTask extends Component {
     }, 3000);
     setTimeout (() => {
       this.getData ();
+      this.getStatus();
     }, 3200);
   };
 
@@ -359,6 +361,7 @@ class DetailDailyTask extends Component {
     }, 3000);
     setTimeout (() => {
       this.getData ();
+      this.getStatus();
     }, 3200);
   };
 
@@ -373,7 +376,7 @@ class DetailDailyTask extends Component {
       })
       .then (response => {
         const data = response.data;
-        console.log (data + 'GetStatus');
+        // console.log (data + 'GetStatus');
         this.setState ({
           Rstatus: {data, ...this.state.task},
         });
@@ -390,7 +393,7 @@ class DetailDailyTask extends Component {
   };
 
   filter = dailyTask_id => {
-    console.log (dailyTask_id + 'data');
+    console.log (dailyTask_id + 'filter');
     const newData = this.arrayholder.filter (item => {
       const itemData = item.dailyTask_id;
       const textData = dailyTask_id;
@@ -402,9 +405,10 @@ class DetailDailyTask extends Component {
 
   renderListStatus = () => {
     const {filter} = this.state;
+    console.log(filter)
     const lengthData = filter.length;
     // console.log(lengthData);
-    if (lengthData === 0) {
+    if (lengthData == 0) {
       return (
         <View
           style={[
@@ -435,7 +439,7 @@ class DetailDailyTask extends Component {
             <Text style={{fontSize: 20, fontWeight: 'bold'}}>
               Status Jawaban Anda :
             </Text>
-            {value.is_approved == 0
+            {value.is_learned == 1 && value.is_approved == 0 
               ? <View style={{alignItems: 'center'}}>
                   <View
                     style={{
@@ -485,13 +489,13 @@ class DetailDailyTask extends Component {
   };
 
   render () {
-    const {Sprint} = this.props.route.params;
-    console.log (this.state.Rstatus);
+    const {Sprint,id_topik} = this.props.route.params;
+    // console.log (this.state.Rstatus);
     return (
       <View style={styles.container}>
         <StatusBar backgroundColor="rgb(0, 184, 150)" />
         <View style={styles.header}>
-          <Text style={styles.pmd}> Tugas {Sprint} </Text>
+          <Text style={styles.pmd}> Tugas {Sprint}</Text>
         </View>
         <Loader loading={this.state.isLoading} />
         <ScrollView

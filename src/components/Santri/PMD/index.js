@@ -101,7 +101,7 @@ class PemahamanMateriDasar extends Component {
             delayPressIn={10}
             key={key}
             onPress={() =>
-              this.props.navigation.navigate('TopikMateriDasar', {
+              this.props.navigation.navigate('ListTopik', {
                 Sprint: value.sprint,
               })
             }

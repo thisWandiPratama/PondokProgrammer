@@ -179,6 +179,8 @@ import DetailTopikKurikulum from '../components/Santri/Kurikulum/detail'
 import VideoPilihSantri from '../components/mentor/DaftarSantri/video'
 import KompotensiPilihSantri from '../components/mentor/DaftarSantri/kompotensi'
 import MenuPilihSantri from '../components/mentor/DaftarSantri/'
+import ListTopik from '../components/Santri/PMD/listTopik';
+
 
 const Stack = createStackNavigator();
 
@@ -272,6 +274,7 @@ function MainSantri() {
       <Stack.Screen name="DetailDailyTask" component={DetailDailyTask} />
       <Stack.Screen name="TopikKurikulum" component={TopikKurikulum} />
       <Stack.Screen name="DetailTopikKurikulum" component={DetailTopikKurikulum} />
+      <Stack.Screen name="ListTopik" component={ListTopik} />
     </Stack.Navigator>
   );
 }

@@ -31,64 +31,17 @@ class TopikPemahamanMateriDasar extends Component {
   }
 
   componentDidMount() {
-    this.getTopik_id();
-    setTimeout(() => {
-      if(this.state.id_topik.length === 0){
-        console.log('tidak ada id topik')
-      }else{
         this.getData();
-      }
-    }, 2000);
   }
-
-  getTopik_id = () => {
-    const data = this.props.authentication;
-    const token = data.token;
-    const jurusan_id = this.props.jurusan_id.jurusan_id;
-    const {Sprint} = this.props.route.params;
-
-    this.setState({refreshing: true, animationLoad: true});
-    axios
-      .get(
-        `https://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      )
-      .then(response => {
-        const data = response.data.topik[0];
-        this.setState({
-          id_topik: data.id,
-          // refreshing: false,
-          // status: true,
-          // animationLoad: false,
-        });
-      })
-      .catch(error => {
-        console.log(error);
-        ToastAndroid.show(
-          'Data gagal didapatkan',
-          ToastAndroid.SHORT,
-          ToastAndroid.CENTER,
-        );
-        this.setState({
-          refreshing: false,
-          status: false,
-          animationLoad: false,
-        });
-      });
-  };
 
   getData = () => {
     const data = this.props.authentication;
     const token = data.token;
     const jurusan_id = this.props.jurusan_id.jurusan_id;
     const {Sprint} = this.props.route.params;
-    const {id_topik} = this.state;
+    const {id_topik} = this.props.route.params;
 
-    console.log(jurusan_id, Sprint, id_topik)
+    // console.log(jurusan_id, Sprint, id_topik)
     this.setState({refreshing: true, animationLoad: true});
     axios
       .get(
@@ -101,7 +54,8 @@ class TopikPemahamanMateriDasar extends Component {
       )
       .then(response => {
         const data = response.data;
-        if(data.status || null){
+        console.log(data)
+        if(data.length==0){
           this.setState({
             topik: [],
             refreshing: false,
@@ -174,7 +128,7 @@ class TopikPemahamanMateriDasar extends Component {
         const is_learned = 1;
 
         const statusList = this.state.topik[key].is_learned === null ? <Text style={[styles.label,{fontSize: 7,marginTop : 0, marginBottom : 0, marginRight : 0,color: 'red'}]}>Klik, Untuk Kirim Centang </Text> : <Text style={[styles.label,{fontSize: 7,marginTop : 0, marginBottom : 0, marginRight : 0,color: 'red'}]}>Menunggu Verifikasi Mentor</Text>
-        const statusCheck = this.state.topik[key].is_approved || this.state.topik[key].is_approved === null ? statusList : <Text style={[styles.label,{fontSize: 7,marginTop : 0, marginBottom : 0, marginRight : 0,color: 'red'}]}>Terverifikasi</Text> 
+        const statusCheck = this.state.topik[key].is_approved == 0 || this.state.topik[key].is_approved == null  ? statusList : <Text style={[styles.label,{fontSize: 7,marginTop : 0, marginBottom : 0, marginRight : 0,color: 'rgb(0,184,150)'}]}>Terverifikasi</Text> 
         const onPress= () =>
           this.sendIs_learned({is_learned, stdKompetensi_id})
         
@@ -200,8 +154,7 @@ class TopikPemahamanMateriDasar extends Component {
                 )}
               </View>
               <View style={{justifyContent: 'center', marginLeft: 5}}>
-                {this.state.topik[key].is_approved ||
-                this.state.topik[key].is_approved === null ? (
+                {this.state.topik[key].is_approved == 0 || this.state.topik[key].is_approved == null  ? (
                   <Icon name="check" color="red" size={20} />
                 ) : (
                   <Icon
@@ -213,6 +166,7 @@ class TopikPemahamanMateriDasar extends Component {
               </View>
               <View style={styles.viewLabel}>
                 <Text style={styles.label}>{value.std_kompetensi} </Text>
+                {/* <Text style={styles.label}>{value.is_approved} </Text> */}
                 {statusCheck}
               </View>
             </TouchableOpacity>
@@ -296,7 +250,7 @@ class TopikPemahamanMateriDasar extends Component {
       <View style={styles.container}>
         <StatusBar backgroundColor="rgb(0, 184, 150)" />
         <View style={styles.header}>
-          <Text style={styles.pmd}> {Sprint} </Text>
+          <Text style={styles.pmd}> Standar Kompetensi </Text>
         </View>
         <Loader loading={this.state.isLoading} />
         <ScrollView

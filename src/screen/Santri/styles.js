@@ -9,7 +9,8 @@ export const styles = StyleSheet.create({
     backgroundColor : '#fff'
   },
   banner: {
-    height: '30%',
+    marginTop : 10,
+    height: '40%',
     width: '100%',
   },
   dashboardTemplate: {
@@ -67,5 +68,17 @@ export const styles = StyleSheet.create({
   textModal: {
     color: 'grey',
     marginTop: 5,
+  },
+  TouchableOpacityStyle: {
+    flex : 1,
+    position: 'absolute',
+    flexDirection : 'row',
+    margin : 5,
+    backgroundColor : 'rgba(125,125,135,0.8)',
+    height : 25,
+    width : '70%',
+    justifyContent : 'center',
+    alignItems : 'center',
+    borderRadius : 20
   },
 });
